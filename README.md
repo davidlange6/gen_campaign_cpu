@@ -12,6 +12,6 @@ Known issues
   - the run_campaigns.py script should not be run in a cmssw environment. For reasons I don't fully understand, this otherwise interferes with the scram p command run to set up each request in its own cmssw environment
   - the make_table.py script needs the prettytable python package. This is most easily gotten by setting up a recent CMSSW environment (which conflicts with the previous point...)
   - you need python3 (but all the scripts are executable)
-  - there are a bunch of parameters hardwired in scripts that should become configurable.. They are all near the top
+  - there are a bunch of parameters hardwired in scripts that should become configurable.. They are all near the top. Some of these, such as the number of jobs to run in parallel are important to match to the computing environment being used.
   - I found it useful to rerun the most resource consuming requests (eg, the ones at the top of the output of make_table.py) and merging the outputs. However I didn't make scripts for this. (I just copied the list of requests into a file and used run_campaigns.py to run on them and then sewed together the results)
   
