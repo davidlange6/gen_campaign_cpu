@@ -10,16 +10,16 @@ mcm = McM(dev=True)
 # Queries can be combined: query='status=submitted&member_of_campaign=Summer12'
 
 campaigns= ["RunIISummer20UL18wmLHEGEN","RunIISummer20UL18pLHEGEN","RunIISummer20UL18GEN"]
-only_new=False
 
 for campaign in campaigns:
-    if only_new:
-       f=open(campaign+"_new.txt",'w')
-       campaign_requests = mcm.get('requests', query='member_of_campaign='+campaign+'&status=new')
-    else:
-       f=open(campaign+".txt",'w')
-       campaign_requests = mcm.get('requests', query='member_of_campaign='+campaign)
-       
+    f=open(campaign+"_new.txt",'w')
+    campaign_requests = mcm.get('requests', query='member_of_campaign='+campaign+'&status=new')
+    for request in campaign_requests:
+        f.write(request['prepid']+"\n")
+    f.close()
+   
+    f=open(campaign+".txt",'w')
+    campaign_requests = mcm.get('requests', query='member_of_campaign='+campaign)     
     for request in campaign_requests:
         f.write(request['prepid']+"\n")
 
