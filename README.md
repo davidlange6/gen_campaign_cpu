@@ -13,4 +13,5 @@ Known issues
   - the make_table.py script needs the prettytable python package. This is most easily gotten by setting up a recent CMSSW environment (which conflicts with the previous point...)
   - you need python3 (but all the scripts are executable)
   - there are a bunch of parameters hardwired in scripts that should become configurable.. They are all near the top
+  - I found it useful to rerun the most resource consuming requests (eg, the ones at the top of the output of make_table.py) and merging the outputs. However I didn't make scripts for this. (I just copied the list of requests into a file and used run_campaigns.py to run on them and then sewed together the results)
   
