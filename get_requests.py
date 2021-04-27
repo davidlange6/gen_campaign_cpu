@@ -11,7 +11,9 @@ mcm = McM(dev=True)
 # It uses a generic search for specified columns: query='status=submitted'
 # Queries can be combined: query='status=submitted&member_of_campaign=Summer12'
 
-campaigns= ["RunIISummer20UL18wmLHEGEN","RunIISummer20UL18pLHEGEN","RunIISummer20UL18GEN"]
+campaigns=sys.argv[1:]
+if len(campaigns)==0:
+    campaigns= ["RunIISummer20UL18wmLHEGEN","RunIISummer20UL18pLHEGEN","RunIISummer20UL18GEN"]
 
 for campaign in campaigns:
     f=open(campaign+"_new.txt",'w')

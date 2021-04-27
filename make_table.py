@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 
-campaigns= ["RunIISummer20UL18wmLHEGEN","RunIISummer20UL18pLHEGEN","RunIISummer20UL18GEN"]
+import sys
+campaigns=sys.argv[1:]
+if len(campaigns)==0:
+    campaigns= ["RunIISummer20UL18wmLHEGEN","RunIISummer20UL18pLHEGEN","RunIISummer20UL18GEN"]
+
 import os
 
 requests={}
@@ -103,8 +107,9 @@ for request in requests:
     gen_total[r["GenType"]]=gen_total.get(r["GenType"],0)+cpu_need/1000.
     gen_total_ev[r["GenType"]]=gen_total_ev.get(r["GenType"],0)+need_evts
     
-myTable.add_row(["Total (no outlier)",totals[0]//1000,totals[1]*totals[2]/totals[0]/totals[0],totals[2]/totals[0],totals[1]/totals[
-0],"","",int(totals[1]/1000.),""])
+if totals[0]<0.0001:
+    totals[0]=0.0001
+myTable.add_row(["Total (no outlier)",totals[0]//1000,totals[1]*totals[2]/totals[0]/totals[0],totals[2]/totals[0],totals[1]/totals[0],"","",int(totals[1]/1000.),""])
 
 good_empties=[]
 for request in empties:

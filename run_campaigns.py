@@ -7,7 +7,10 @@ from json import dumps
 from subprocess import Popen,PIPE
 import os,sys
 
-campaigns = ["RunIISummer20UL18wmLHEGEN","RunIISummer20UL18pLHEGEN","RunIISummer20UL18GEN"]
+campaigns=sys.argv[1:]
+if len(campaigns)==0:
+    campaigns= ["RunIISummer20UL18wmLHEGEN","RunIISummer20UL18pLHEGEN","RunIISummer20UL18GEN"]
+
 nThread=32
 #optionally re-use the mcm information in job subdirectories
 use_existing_job_info=False
