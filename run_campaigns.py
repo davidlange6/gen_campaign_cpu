@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import sys
 sys.path.append('/afs/cern.ch/cms/PPD/PdmV/tools/McM/')
 from rest import McM
