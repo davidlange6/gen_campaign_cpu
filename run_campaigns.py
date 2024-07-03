@@ -5,13 +5,14 @@ sys.path.append('/afs/cern.ch/cms/PPD/PdmV/tools/McM/')
 from rest import McM
 from json import dumps
 from subprocess import Popen,PIPE
-import os,sys
+import os
 
 campaigns=sys.argv[1:]
 if len(campaigns)==0:
     campaigns= ["RunIISummer20UL18wmLHEGEN","RunIISummer20UL18pLHEGEN","RunIISummer20UL18GEN"]
 
-nThread=32
+#nThread=8
+nThread=16#32
 #optionally re-use the mcm information in job subdirectories
 use_existing_job_info=False
 #if false, it just does the mcm query
@@ -40,7 +41,8 @@ def runCommand(comm):
     return eC,pipe.decode(encoding='UTF-8'),errpipe.decode(encoding='UTF-8')
 
 if not use_existing_job_info:
-    mcm = McM(dev=True)
+    #mcm = McM(dev=True)
+    mcm = McM(id='oidc', dev=True) #, debug=True)
     
 def do_request(request):
 
@@ -79,8 +81,8 @@ def do_request(request):
                 results=None
         
         if results:
-            time_event = results["time_per_event"]
-            events = results["total_events"]
+            time_event = int(results["time_per_event"])
+            events = int(results["total_events"])
         else:
             time_event = default_time_evt
             events = default_events
@@ -121,8 +123,8 @@ def do_request(request):
     if not cmsdrivers:
         print("no cmsdriver")
         return
-  
-    events_to_run=int(target_job_length/float(time_event))
+    events_to_run=0 
+    if float(time_event) > 0.0: events_to_run=int(target_job_length/float(time_event))
     if events_to_run < minimum_number_of_events: events_to_run = minimum_number_of_events
     #watch out for low efficiency stuff
     if events_to_run * filter_eff < minimum_events_after_filter:
@@ -145,7 +147,7 @@ def do_request(request):
         #force one thread
         driver=driver+' --nThreads 1 --suffix "-j JobReport1.xml "'
         driver=driver+' --customise Validation/Performance/TimeMemorySummary.customiseWithTimeMemorySummary'
-        driver=driver+" --prefix '/dlange/gen/monitor_workflow.py timeout --signal SIGTERM 17200 '"
+        #driver=driver+" --prefix '/dlange/gen/monitor_workflow.py timeout --signal SIGTERM 17200 '"
         driver=driver+' > run.log 2>&1'
         fscript.write(driver+"\n")
         fscript.write('if [ $? -ne 0 ]\nthen\necho "cmsenv failed"\nexit 1\nfi\n')
