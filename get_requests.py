@@ -5,7 +5,7 @@ sys.path.append('/afs/cern.ch/cms/PPD/PdmV/tools/McM/')
 from rest import McM
 from json import dumps
 
-mcm = McM(dev=True)
+mcm = McM(id='oidc', dev=True) #, debug=True)
 
 # Example to get  ALL requests which are member of a given campaign and are submitted
 # It uses a generic search for specified columns: query='status=submitted'
